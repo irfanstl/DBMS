@@ -205,18 +205,18 @@ export default function RestaurantDetails() {
           <div className="animate-fadeIn">
             <p className="text-gray-400 text-sm font-medium mb-6">Browse through our full restaurant menu</p>
             <div className="grid sm:grid-cols-2 gap-6">
-              {['Starters', 'Main Course', 'Desserts', 'Beverages'].map((section) => (
+              {Array.from(new Set((restaurant.menu || []).map(item => item.category || 'Specials'))).map((section) => (
                 <div key={section} className="bg-gray-50 border border-gray-100 rounded-3xl p-6 shadow-sm">
                   <h3 className="font-extrabold text-lg text-gray-900 mb-4 flex items-center gap-2">
                     <span className="w-2 h-5 bg-mango-500 rounded-full inline-block"></span>
                     {section}
                   </h3>
                   <div className="space-y-3">
-                    {[1, 2].map((i) => (
-                      <div key={i} className="flex justify-between items-center text-sm border-b border-gray-100 pb-3 last:border-0 last:pb-0">
-                        <span className="font-semibold text-gray-700">{section === 'Starters' ? ['Spring Rolls', 'Soup of the Day'][i - 1] : section === 'Main Course' ? ['Grilled Chicken', 'Pasta Primavera'][i - 1] : section === 'Desserts' ? ['Mango Mousse', 'Chocolate Lava Cake'][i - 1] : ['Fresh Juice', 'Iced Tea'][i - 1]}</span>
-                        <span className="font-extrabold text-gray-900">${(4 + i * 2 + section.length % 5).toFixed(2)}</span>
-                      </div>
+                    {(restaurant.menu || []).filter(item => (item.category || 'Specials') === section).map((item) => (
+                      <Link to={`/food/${item.id}`} key={item.id} className="flex justify-between items-center text-sm border-b border-gray-100 pb-3 last:border-0 last:pb-0 hover:bg-white p-2 rounded-lg transition-colors cursor-pointer group">
+                        <span className="font-semibold text-gray-700 group-hover:text-mango-600 transition-colors">{item.name}</span>
+                        <span className="font-extrabold text-gray-900">{item.price}</span>
+                      </Link>
                     ))}
                   </div>
                 </div>
@@ -231,7 +231,7 @@ export default function RestaurantDetails() {
             <p className="text-gray-400 text-sm font-medium mb-6">Add items to your cart and order directly</p>
             <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
               {restaurant.menu?.map((item) => (
-                <div key={item.id} className="group flex gap-4 bg-white rounded-3xl p-4 border border-gray-100 shadow-sm hover:shadow-xl hover:shadow-mango-100/50 transition-all duration-300 cursor-pointer">
+                <Link to={`/food/${item.id}`} key={item.id} className="group flex gap-4 bg-white rounded-3xl p-4 border border-gray-100 shadow-sm hover:shadow-xl hover:shadow-mango-100/50 transition-all duration-300 cursor-pointer">
                   <div className="relative w-32 h-32 rounded-2xl overflow-hidden shrink-0 bg-mango-50">
                     <img src={item.img} alt={item.name} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
                   </div>
@@ -244,12 +244,12 @@ export default function RestaurantDetails() {
                     </div>
                     <div className="flex justify-between items-center mt-2">
                       <span className="text-xl font-extrabold text-gray-900">{item.price}</span>
-                      <button className="bg-mango-50 text-mango-600 p-2.5 rounded-full hover:bg-mango-500 hover:text-white transition-colors">
+                      <button className="bg-mango-50 text-mango-600 p-2.5 rounded-full hover:bg-mango-500 hover:text-white transition-colors" onClick={(e) => { e.preventDefault(); /* Add to cart logic here */ }}>
                         <Plus size={20} strokeWidth={3} />
                       </button>
                     </div>
                   </div>
-                </div>
+                </Link>
               ))}
             </div>
           </div>

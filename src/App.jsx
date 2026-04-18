@@ -1,28 +1,55 @@
 import { useState, useEffect } from 'react';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import Navbar from './components/Navbar';
 import LoginModal from './components/LoginModal';
 import Home from './pages/Home';
 import RestaurantDetails from './pages/RestaurantDetails';
+import FoodItem from './pages/FoodItem';
+import Profile from './pages/Profile';
+import AllRestaurants from './pages/AllRestaurants';
+import Cart from './pages/Cart';
+import Contact from './pages/Contact';
+import SearchResults from './pages/SearchResults';
+import Checkout from './pages/Checkout';
+import OrderSuccess from './pages/OrderSuccess';
+import Admin from './pages/Admin';
 
 export default function App() {
   const [isLoginOpen, setIsLoginOpen] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [user, setUser] = useState(null);
   const [searchQuery, setSearchQuery] = useState('');
+
+  useEffect(() => {
+    const savedUser = localStorage.getItem('user_data');
+    if (savedUser) {
+      setUser(JSON.parse(savedUser));
+      setIsLoggedIn(true);
+    }
+  }, []);
+
+  const handleLogout = () => {
+    localStorage.removeItem('user_data');
+    setUser(null);
+    setIsLoggedIn(false);
+  };
 
   return (
     <BrowserRouter>
       <div className="min-h-screen bg-[#fffcf2] font-sans selection:bg-mango-200 selection:text-mango-900 overflow-x-hidden pt-20">
         <Navbar 
           isLoggedIn={isLoggedIn} 
-          onLogout={() => setIsLoggedIn(false)}
+          user={user}
+          onLogout={handleLogout}
           onLoginClick={() => setIsLoginOpen(true)} 
           onSearchChange={setSearchQuery}
         />
         <LoginModal 
           isOpen={isLoginOpen} 
           onClose={() => setIsLoginOpen(false)} 
-          onLogin={() => {
+          onLogin={(userData) => {
+            localStorage.setItem('user_data', JSON.stringify(userData));
+            setUser(userData);
             setIsLoggedIn(true);
             setIsLoginOpen(false);
           }} 
@@ -30,7 +57,16 @@ export default function App() {
         
         <Routes>
           <Route path="/" element={<Home searchQuery={searchQuery} />} />
+          <Route path="/search" element={<SearchResults />} />
+          <Route path="/restaurants" element={<AllRestaurants />} />
+          <Route path="/cart" element={<Cart />} />
+          <Route path="/checkout" element={<Checkout />} />
+          <Route path="/order-success" element={<OrderSuccess />} />
+          <Route path="/contact" element={<Contact />} />
           <Route path="/restaurant/:id" element={<RestaurantDetails />} />
+          <Route path="/food/:id" element={<FoodItem />} />
+          <Route path="/profile" element={<Profile user={user} onLogout={handleLogout} onLoginClick={() => setIsLoginOpen(true)} />} />
+          <Route path="/admin" element={user?.role === 'admin' ? <Admin /> : <Navigate to="/" replace />} />
         </Routes>
         
         <footer className="bg-gray-900 text-white py-12 relative z-10 mt-auto">

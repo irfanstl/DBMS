@@ -1,4 +1,5 @@
 import { ArrowRight, Star } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 export default function Hero() {
   return (
@@ -28,12 +29,15 @@ export default function Hero() {
             </p>
             
             <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
-              <button className="flex items-center justify-center gap-2 bg-gradient-to-r from-mango-500 to-mango-600 text-white px-8 py-4 rounded-full font-bold text-lg shadow-xl shadow-mango-500/30 hover:shadow-2xl hover:shadow-mango-500/40 hover:-translate-y-1 active:translate-y-0 transition-all duration-300">
+              <button onClick={() => {
+                const el = document.getElementById('restaurants');
+                if (el) el.scrollIntoView({ behavior: 'smooth' });
+              }} className="flex items-center justify-center gap-2 bg-gradient-to-r from-mango-500 to-mango-600 text-white px-8 py-4 rounded-full font-bold text-lg shadow-xl shadow-mango-500/30 hover:shadow-2xl hover:shadow-mango-500/40 hover:-translate-y-1 active:translate-y-0 transition-all duration-300">
                 Order Now <ArrowRight size={20} strokeWidth={2.5} />
               </button>
-              <button className="flex items-center justify-center gap-2 bg-white text-gray-900 px-8 py-4 rounded-full font-bold text-lg border-2 border-gray-100 hover:border-mango-200 hover:bg-mango-50 transition-all duration-300">
+              <Link to="/restaurants" className="flex items-center justify-center gap-2 bg-white text-gray-900 px-8 py-4 rounded-full font-bold text-lg border-2 border-gray-100 hover:border-mango-200 hover:bg-mango-50 transition-all duration-300">
                 Explore Menu
-              </button>
+              </Link>
             </div>
             
             <div className="mt-12 flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4">

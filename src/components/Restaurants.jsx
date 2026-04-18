@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { Star, MapPin, Clock } from 'lucide-react';
 import FilterBar from './FilterBar';
 
-export default function Restaurants({ searchQuery = '' }) {
+export default function Restaurants({ searchQuery = '', hideSeeAll = false }) {
   const [restaurants, setRestaurants] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
@@ -25,17 +25,19 @@ export default function Restaurants({ searchQuery = '' }) {
   }, [searchQuery]);
 
   return (
-    <section className="py-20 bg-gray-50/50">
+    <section id="restaurants" className="py-20 bg-gray-50/50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex flex-col sm:flex-row justify-between items-end mb-10 gap-4">
           <div>
             <h2 className="text-3xl font-extrabold text-gray-900 mb-2 tracking-tight">Top Restaurants Near You</h2>
             <p className="text-gray-500 font-medium">Discover places that deliver to your location</p>
           </div>
-          <button className="text-mango-600 font-bold hover:text-mango-700 transition-colors flex items-center gap-1 group">
-            See all restaurants 
-            <span className="transform group-hover:translate-x-1 transition-transform">&rarr;</span>
-          </button>
+          {!hideSeeAll && (
+            <Link to="/restaurants" className="text-mango-600 font-bold hover:text-mango-700 transition-colors flex items-center gap-1 group">
+              See all restaurants 
+              <span className="transform group-hover:translate-x-1 transition-transform">&rarr;</span>
+            </Link>
+          )}
         </div>
 
         <FilterBar />

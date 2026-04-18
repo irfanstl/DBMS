@@ -3,6 +3,29 @@ import { X } from 'lucide-react';
 
 export default function LoginModal({ isOpen, onClose, onLogin }) {
   const [mode, setMode] = useState('login'); // 'login' or 'signup'
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const res = await fetch('/api/auth/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, password })
+      });
+      if (res.ok) {
+        const data = await res.json();
+        onLogin(data.user);
+        setEmail('');
+        setPassword('');
+      } else {
+        alert("Invalid credentials!");
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  };
 
   if (!isOpen) return null;
 
@@ -28,7 +51,7 @@ export default function LoginModal({ isOpen, onClose, onLogin }) {
           </p>
         </div>
 
-        <form onSubmit={(e) => { e.preventDefault(); onLogin(); }} className="space-y-4">
+        <form onSubmit={handleSubmit} className="space-y-4">
           
           {mode === 'signup' && (
             <div className="animate-in fade-in slide-in-from-top-4 duration-300">
@@ -46,6 +69,8 @@ export default function LoginModal({ isOpen, onClose, onLogin }) {
             <label className="block text-sm font-bold text-gray-700 mb-1.5 ml-4">Email Address</label>
             <input 
               type="email" 
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
               className="w-full px-6 py-4 rounded-full border border-gray-100 bg-gray-50 focus:bg-white focus:outline-none focus:ring-2 focus:ring-mango-500/50 focus:border-mango-500 transition-all text-sm font-medium text-gray-900 placeholder-gray-400"
               placeholder="name@email.com"
               required
@@ -56,6 +81,8 @@ export default function LoginModal({ isOpen, onClose, onLogin }) {
             <label className="block text-sm font-bold text-gray-700 mb-1.5 ml-4">Password</label>
             <input 
               type="password" 
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
               className="w-full px-6 py-4 rounded-full border border-gray-100 bg-gray-50 focus:bg-white focus:outline-none focus:ring-2 focus:ring-mango-500/50 focus:border-mango-500 transition-all text-sm font-medium text-gray-900 placeholder-gray-400"
               placeholder="••••••••"
               required
