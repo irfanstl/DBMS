@@ -1,11 +1,23 @@
 import { ShoppingBag, Search, Menu, User, MapPin, ChevronDown, Bell, Moon, Trash2 } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 
 export default function Navbar({ isLoggedIn, user, onLogout, onLoginClick, onSearchChange }) {
   const [cartCount, setCartCount] = useState(0);
   const [notifications, setNotifications] = useState([]);
   const [isNotifOpen, setIsNotifOpen] = useState(false);
+  const [searchValue, setSearchValue] = useState('');
+  const [isDark, setIsDark] = useState(() => localStorage.getItem('theme') === 'dark');
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (isDark) {
+      document.documentElement.classList.add('dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+    }
+    localStorage.setItem('theme', isDark ? 'dark' : 'light');
+  }, [isDark]);
 
   useEffect(() => {
     fetch('/api/cart').then(res => res.json()).then(data => {
@@ -21,7 +33,7 @@ export default function Navbar({ isLoggedIn, user, onLogout, onLoginClick, onSea
   };
 
   const toggleDarkMode = () => {
-    document.documentElement.classList.toggle('dark');
+    setIsDark(!isDark);
   };
 
   return (
@@ -31,7 +43,7 @@ export default function Navbar({ isLoggedIn, user, onLogout, onLoginClick, onSea
           <div className="flex items-center gap-4 lg:gap-8">
             <Link to="/" className="flex items-center gap-2 cursor-pointer group">
               <div className="flex items-center justify-center w-12 h-12 transition-transform group-hover:scale-110">
-                <img src="/icon.png" alt="MangoBite" className="w-full h-full object-contain" />
+                <img src="/icon.png" alt="MangoBite" className="w-full h-full brand-icon" />
               </div>
             <span className="font-extrabold text-2xl tracking-tight text-gray-900 hidden sm:block">
               Mango<span className="text-mango-500">Bite</span>
@@ -52,9 +64,6 @@ export default function Navbar({ isLoggedIn, user, onLogout, onLoginClick, onSea
         <div className="hidden lg:flex items-center space-x-10">
           <Link to="/" className="font-semibold text-mango-600 relative after:absolute after:bottom-0 after:left-0 after:w-full after:h-[2px] after:bg-mango-500 after:origin-bottom-right after:scale-x-0 hover:after:origin-bottom-left hover:after:scale-x-100 after:transition-transform after:duration-300">Home</Link>
           <Link to="/contact" className="font-semibold text-gray-500 hover:text-gray-900 transition-colors">Contact</Link>
-          {user?.role === 'admin' && (
-            <Link to="/admin" className="font-bold text-red-500 hover:text-red-600 transition-colors bg-red-50 px-3 py-1 rounded-full">Admin Dashboard</Link>
-          )}
         </div>
 
         <div className="flex items-center gap-3 md:gap-5">
@@ -64,10 +73,16 @@ export default function Navbar({ isLoggedIn, user, onLogout, onLoginClick, onSea
               type="text"
               placeholder="Search food or places..."
               className="bg-transparent border-none outline-none ml-2 text-sm w-full font-medium text-gray-900 placeholder-gray-400 placeholder:select-none"
-              onChange={(e) => onSearchChange?.(e.target.value)}
+              value={searchValue}
+              onChange={(e) => {
+                setSearchValue(e.target.value);
+                onSearchChange?.(e.target.value);
+              }}
               onKeyDown={(e) => {
-                if (e.key === 'Enter') {
-                  window.location.href = `/search?q=${e.target.value}`;
+                if (e.key === 'Enter' && searchValue.trim()) {
+                  navigate(`/search?q=${encodeURIComponent(searchValue)}`);
+                  setSearchValue('');
+                  onSearchChange?.('');
                 }
               }}
             />

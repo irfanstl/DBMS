@@ -1,0 +1,3 @@
+use two terminal 
+one for forntend :npm run dev
+second for back end :node backend/server.js  

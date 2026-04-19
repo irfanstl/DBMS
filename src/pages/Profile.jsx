@@ -1,10 +1,12 @@
 import { useState, useEffect } from 'react';
-import { User, Settings, ShoppingBag, MapPin, CreditCard, LogOut, Store, Plus } from 'lucide-react';
+import { User, Settings, ShoppingBag, MapPin, CreditCard, LogOut, Store, Plus, ShieldCheck } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 
 export default function Profile({ user, onLogout, onLoginClick }) {
   const [activeTab, setActiveTab] = useState('orders');
   const [orders, setOrders] = useState([]);
   const [addresses, setAddresses] = useState([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (activeTab === 'orders') {
@@ -85,6 +87,16 @@ export default function Profile({ user, onLogout, onLoginClick }) {
                 <Store size={18} className={activeTab === 'partner' ? 'text-blue-600' : 'text-blue-500'} /> 
                 Partner with Us
               </button>
+
+              {/* Admin Panel Access */}
+              {user?.role === 'admin' && (
+                <button
+                  onClick={() => navigate('/admin')}
+                  className="flex items-center gap-3 px-4 py-3 rounded-xl font-bold text-sm text-mango-600 bg-mango-50 hover:bg-mango-100 transition-colors w-full text-left mt-2 border border-mango-100"
+                >
+                  <ShieldCheck size={18} /> Admin Panel
+                </button>
+              )}
 
               <button onClick={onLogout} className="flex items-center gap-3 px-4 py-3 rounded-xl font-bold text-sm text-red-500 hover:bg-red-50 transition-colors w-full text-left mt-2">
                 <LogOut size={18} /> Logout
@@ -247,11 +259,21 @@ export default function Profile({ user, onLogout, onLoginClick }) {
                 </div>
               )}
 
-              {['payments'].includes(activeTab) && (
-                <div className="text-center py-20">
-                  <Settings size={48} className="mx-auto text-gray-200 mb-4 animate-spin-slow" />
-                  <h3 className="text-lg font-bold text-gray-900 mb-2 capitalize">{activeTab} section</h3>
-                  <p className="text-gray-400 font-medium">This feature is under development.</p>
+              {activeTab === 'payments' && (
+                <div className="animate-in fade-in duration-500">
+                  <h2 className="text-2xl font-extrabold text-gray-900 mb-6">Payment Methods</h2>
+                  <div className="bg-[#fcfcfc] border-2 border-dashed border-gray-100 rounded-[2rem] p-10 text-center">
+                    <div className="w-24 h-24 bg-white rounded-3xl flex items-center justify-center mx-auto mb-6 shadow-sm border border-gray-50">
+                      <img src="https://upload.wikimedia.org/wikipedia/commons/8/89/Razorpay_logo.svg" alt="Razorpay" className="w-16 h-16 object-contain" />
+                    </div>
+                    <h3 className="text-xl font-bold text-gray-900 mb-2">Primary Payment: Razorpay</h3>
+                    <p className="text-gray-500 font-medium max-w-sm mx-auto mb-8">
+                      Your payments are securely handled by Razorpay. You can pay using UPI, Cards, or Netbanking during checkout.
+                    </p>
+                    <button className="bg-gray-900 text-white font-bold py-3 px-8 rounded-xl hover:bg-black transition-all">
+                      Manage Razorpay Account
+                    </button>
+                  </div>
                 </div>
               )}
 

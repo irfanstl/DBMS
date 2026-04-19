@@ -1,5 +1,6 @@
 import { useSearchParams } from 'react-router-dom';
 import Restaurants from '../components/Restaurants';
+import Featured from '../components/Featured';
 
 export default function SearchResults() {
   const [searchParams] = useSearchParams();
@@ -12,7 +13,11 @@ export default function SearchResults() {
           Search Results for <span className="text-mango-500">"{query}"</span>
         </h1>
       </div>
-      <Restaurants searchQuery={query} hideSeeAll={true} />
+      
+      <div className="space-y-12">
+        <Restaurants searchQuery={query} hideSeeAll={true} />
+        <Featured searchQuery={query} hideSeeAll={true} />
+      </div>
     </div>
   );
 }

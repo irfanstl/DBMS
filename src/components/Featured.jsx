@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Flame, Clock, Plus } from 'lucide-react';
 
-export default function Featured({ searchQuery = '' }) {
+export default function Featured({ searchQuery = '', hideSeeAll = false }) {
   const [items, setItems] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
@@ -30,10 +30,12 @@ export default function Featured({ searchQuery = '' }) {
             <h2 className="text-4xl font-extrabold text-gray-900 mb-3 tracking-tight">Popular Menu</h2>
             <p className="text-gray-500 font-medium text-lg">Explore some of our best-selling dishes</p>
           </div>
-          <button className="text-mango-600 font-bold hover:text-mango-700 transition-colors flex items-center gap-1 group">
-            See all menu 
-            <span className="transform group-hover:translate-x-1 transition-transform">&rarr;</span>
-          </button>
+          {!hideSeeAll && (
+            <button className="text-mango-600 font-bold hover:text-mango-700 transition-colors flex items-center gap-1 group">
+              See all menu 
+              <span className="transform group-hover:translate-x-1 transition-transform">&rarr;</span>
+            </button>
+          )}
         </div>
 
         <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-8">

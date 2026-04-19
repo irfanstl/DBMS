@@ -94,8 +94,8 @@ router.get('/orders', async (req, res) => {
   await delay(400);
   // Placeholder mock orders from backend
   res.json([
-    { id: '#ORD-9999', date: 'April 18, 2026', items: 'Spicy Mango Chicken x 2', total: '$29.98', status: 'Delivered' },
-    { id: '#ORD-8888', date: 'April 10, 2026', items: 'Classic Beef Burger x 1', total: '$12.99', status: 'Delivered' }
+    { id: '#ORD-9999', date: 'April 18, 2026', items: 'Spicy Mango Chicken x 2', total: '₹29.98', status: 'Delivered' },
+    { id: '#ORD-8888', date: 'April 10, 2026', items: 'Classic Beef Burger x 1', total: '₹12.99', status: 'Delivered' }
   ]);
 });
 
@@ -135,6 +135,34 @@ router.get('/notifications', async (req, res) => {
 router.delete('/notifications', async (req, res) => {
   mongoDB.notifications = [];
   res.json(mongoDB.notifications);
+});
+
+// --- ADMIN SPECIFIC ROUTES ---
+
+router.get('/admin/users', async (req, res) => {
+  await delay(500);
+  res.json([
+    { id: 1, name: 'Irfan Khan', email: 'irfan@demo.com', phone: '9999900000', status: 'active', orders: 12, address1: '123 Mango Street' },
+    { id: 2, name: 'Sarah Miller', email: 'sarah@test.com', phone: '8888811111', status: 'blocked', orders: 0, address1: '456 Orange Ave' },
+    { id: 3, name: 'David Smith', email: 'david@web.com', phone: '7777722222', status: 'active', orders: 5, address1: '789 Banana Blvd' },
+  ]);
+});
+
+router.get('/admin/stats', async (req, res) => {
+  res.json({
+    orders: 1248,
+    users: 842,
+    revenue: '₹1,14,892',
+    restaurants: 24
+  });
+});
+
+router.get('/admin/payments', async (req, res) => {
+  res.json([
+    { id: 'pay_razor_001', method: 'Razorpay', amount: '₹1,200', status: 'success', date: '10m ago' },
+    { id: 'pay_razor_002', method: 'Razorpay', amount: '₹850', status: 'failed', date: '1h ago' },
+    { id: 'pay_razor_003', method: 'Razorpay', amount: '₹2,400', status: 'success', date: '3h ago' },
+  ]);
 });
 
 export default router;

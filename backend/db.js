@@ -14,8 +14,8 @@ export const mysqlDB = {
   // MySQL stores the core relational metrics and foreign keys
   restaurants: [
     { id: 1, rating: 4.9, reviewsCount: "1.2k", deliveryTime: "15-25 min", type: "Healthy • Vegan", deliveryFee: "Free", img: "https://images.unsplash.com/photo-1493770348161-369560ae357d?w=600&q=80" },
-    { id: 2, rating: 4.7, reviewsCount: "850", deliveryTime: "30-45 min", type: "Asian • Spicy", deliveryFee: "$1.99", img: "https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=600&q=80" },
-    { id: 3, rating: 4.6, reviewsCount: "420", deliveryTime: "25-35 min", type: "Italian • Pizza", deliveryFee: "$2.50", img: "https://images.unsplash.com/photo-1604382354936-07c5d9983bd3?w=600&q=80" },
+    { id: 2, rating: 4.7, reviewsCount: "850", deliveryTime: "30-45 min", type: "Asian • Spicy", deliveryFee: "₹1.99", img: "https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=600&q=80" },
+    { id: 3, rating: 4.6, reviewsCount: "420", deliveryTime: "25-35 min", type: "Italian • Pizza", deliveryFee: "₹2.50", img: "https://images.unsplash.com/photo-1604382354936-07c5d9983bd3?w=600&q=80" },
   ],
 
   topBrands: [
@@ -25,9 +25,9 @@ export const mysqlDB = {
   ],
 
   featuredItems: [
-    { id: 1, name: "Spicy Mango Chicken", price: "$14.99", time: "15-20 min", cal: "450 kcal", img: "https://images.unsplash.com/photo-1564834724105-918b73d1b9e0?w=500&q=80", restaurantId: 1, description: "A fiery and sweet blend of grilled chicken glazed with fresh mango sauce.", rating: 4.8, reviewsCount: 120, category: "Main Course" },
-    { id: 2, name: "Tropical Fruit Bowl", price: "$9.50", time: "10-15 min", cal: "250 kcal", img: "https://images.unsplash.com/photo-1490474418585-ba9ce8c0afcd?w=500&q=80", restaurantId: 1, description: "A refreshing mix of seasonal tropical fruits topped with honey and mint.", rating: 4.5, reviewsCount: 85, category: "Desserts" },
-    { id: 3, name: "Classic Beef Burger", price: "$12.99", time: "20-25 min", cal: "850 kcal", img: "https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=500&q=80", restaurantId: 2, description: "Juicy beef patty with fresh lettuce, tomatoes, and our secret sauce in a toasted bun.", rating: 4.9, reviewsCount: 340, category: "Starters" },
+    { id: 1, name: "Spicy Mango Chicken", price: "₹14.99", time: "15-20 min", cal: "450 kcal", img: "https://images.unsplash.com/photo-1564834724105-918b73d1b9e0?w=500&q=80", restaurantId: 1, description: "A fiery and sweet blend of grilled chicken glazed with fresh mango sauce.", rating: 4.8, reviewsCount: 120, category: "Main Course" },
+    { id: 2, name: "Tropical Fruit Bowl", price: "₹9.50", time: "10-15 min", cal: "250 kcal", img: "https://images.unsplash.com/photo-1490474418585-ba9ce8c0afcd?w=500&q=80", restaurantId: 1, description: "A refreshing mix of seasonal tropical fruits topped with honey and mint.", rating: 4.5, reviewsCount: 85, category: "Desserts" },
+    { id: 3, name: "Classic Beef Burger", price: "₹12.99", time: "20-25 min", cal: "850 kcal", img: "https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=500&q=80", restaurantId: 2, description: "Juicy beef patty with fresh lettuce, tomatoes, and our secret sauce in a toasted bun.", rating: 4.9, reviewsCount: 340, category: "Starters" },
   ],
 
   photos: [

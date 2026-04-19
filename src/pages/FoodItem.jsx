@@ -165,7 +165,7 @@ export default function FoodItem() {
                   <span>150 kcal</span>
                 </div>
                 <div className="flex justify-between items-center">
-                  <span className="text-lg font-extrabold text-gray-900">$8.50</span>
+                  <span className="text-lg font-extrabold text-gray-900">₹8.50</span>
                   <button className="bg-mango-50 text-mango-600 p-2 rounded-full hover:bg-mango-500 hover:text-white transition-colors">
                     <Plus size={16} strokeWidth={3} />
                   </button>

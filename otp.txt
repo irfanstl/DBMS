@@ -1,0 +1,2 @@
+[ AUTH ] OTP Request for: +91 9999999999
+[ CODE ] Your Verification Code is: 123456

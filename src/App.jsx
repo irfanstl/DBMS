@@ -36,7 +36,7 @@ export default function App() {
 
   return (
     <BrowserRouter>
-      <div className="min-h-screen bg-[#fffcf2] font-sans selection:bg-mango-200 selection:text-mango-900 overflow-x-hidden pt-20">
+      <div className="min-h-screen bg-[#fffcf2] dark:bg-gray-950 font-sans selection:bg-mango-200 selection:text-mango-900 overflow-x-hidden pt-20 transition-colors duration-300">
         <Navbar 
           isLoggedIn={isLoggedIn} 
           user={user}

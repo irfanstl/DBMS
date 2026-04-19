@@ -8,6 +8,21 @@ const MOCK_ACCOUNTS = [
   { id: 2, name: "Demo Admin", email: "admin@demo.com", password: "admin123", role: "admin" }
 ];
 
+// Route to generate and print OTP
+router.post('/send-otp', (req, res) => {
+  const { phone } = req.body;
+  
+  // Set default OTP for Admin, random for others
+  const otp = phone === '0000000000' ? '123456' : Math.floor(100000 + Math.random() * 900000).toString();
+  
+  console.log('------------------------------------------');
+  console.log(`[AUTH] OTP Request for: +91 ${phone}`);
+  console.log(`[CODE] Your OTP is: ${otp}`);
+  console.log('------------------------------------------');
+  
+  res.json({ success: true, message: "OTP sent successfully" });
+});
+
 // Mock Login Route
 router.post('/login', (req, res) => {
   const { email, password } = req.body;

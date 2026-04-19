@@ -56,7 +56,7 @@ export default function Cart() {
                       <Trash2 size={18} />
                     </button>
                   </div>
-                  <div className="font-extrabold text-mango-600 mb-3">${item.price}</div>
+                  <div className="font-extrabold text-mango-600 mb-3">₹{item.price}</div>
                   
                   <div className="flex items-center gap-3 bg-gray-50 w-fit rounded-lg p-1 border border-gray-100">
                     <button onClick={() => updateQuantity(item.id, 'sub')} className="w-8 h-8 flex items-center justify-center text-gray-500 hover:text-gray-900 hover:bg-white rounded-md transition-colors shadow-sm">
@@ -80,15 +80,15 @@ export default function Cart() {
               <div className="space-y-4 mb-6">
                 <div className="flex justify-between text-gray-500 font-medium text-sm">
                   <span>Subtotal</span>
-                  <span className="text-gray-900 font-bold">${subtotal.toFixed(2)}</span>
+                  <span className="text-gray-900 font-bold">₹{subtotal.toFixed(2)}</span>
                 </div>
                 <div className="flex justify-between text-gray-500 font-medium text-sm">
                   <span>Delivery Fee</span>
-                  <span className="text-gray-900 font-bold">${deliveryFee.toFixed(2)}</span>
+                  <span className="text-gray-900 font-bold">₹{deliveryFee.toFixed(2)}</span>
                 </div>
                 <div className="flex justify-between text-gray-500 font-medium text-sm pt-4 border-t border-gray-100">
                   <span className="text-gray-900 font-extrabold text-lg">Total</span>
-                  <span className="text-mango-600 font-black text-xl">${total.toFixed(2)}</span>
+                  <span className="text-mango-600 font-black text-xl">₹{total.toFixed(2)}</span>
                 </div>
               </div>
 

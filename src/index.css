@@ -54,3 +54,10 @@
   @apply bg-gray-900/80 border-gray-800/50 text-gray-100;
 }
 
+/* Rounded Branding */
+.brand-logo, .brand-icon, .logo-container img {
+  border-radius: 9999px !important;
+  overflow: hidden;
+  object-fit: cover;
+}
+
