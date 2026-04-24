@@ -46,7 +46,7 @@ export default function Categories({ searchQuery = '' }) {
             // Render Actual Categories
             categories.map((category, index) => (
               <button 
-                key={category.id} 
+                key={category.id || category.category_id || index} 
                 onClick={() => handleCategoryClick(category.name)}
                 className={`flex flex-col items-center justify-center gap-3 min-w-[110px] py-6 px-4 rounded-[2rem] transition-all duration-300 transform hover:-translate-y-2 snap-start
                   ${index === 0 

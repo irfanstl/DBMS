@@ -61,14 +61,14 @@ export default function Restaurants({ searchQuery = '', hideSeeAll = false }) {
             ))
           ) : (
             // Actual Restaurant Cards
-            restaurants.map((rest) => (
-              <Link to={`/restaurant/${rest.id}`} key={rest.id} className="group bg-white rounded-3xl p-4 border border-gray-100 shadow-sm hover:shadow-2xl hover:shadow-mango-100/40 transition-all duration-300 transform hover:-translate-y-1 block">
+            restaurants.map((rest, idx) => (
+              <Link to={`/restaurant/${rest.restaurant_id || rest.id}`} key={rest.restaurant_id || rest.id || idx} className="group bg-white rounded-3xl p-4 border border-gray-100 shadow-sm hover:shadow-2xl hover:shadow-mango-100/40 transition-all duration-300 transform hover:-translate-y-1 block">
                 <div className="relative w-full h-48 rounded-2xl overflow-hidden mb-5">
                   <img src={rest.img} alt={rest.name} className="object-cover w-full h-full group-hover:scale-105 transition-transform duration-700 ease-out" />
                   
                   {/* Floating delivery time badge */}
                   <div className="absolute bottom-3 right-3 bg-white/95 backdrop-blur-md px-3 py-1.5 rounded-full text-xs font-extrabold text-gray-900 flex items-center gap-1.5 shadow-lg">
-                    <Clock size={14} className="text-mango-500" /> {rest.deliveryTime}
+                    <Clock size={14} className="text-mango-500" /> {rest.delivery_time || rest.deliveryTime}
                   </div>
                 </div>
                 
@@ -81,7 +81,7 @@ export default function Restaurants({ searchQuery = '', hideSeeAll = false }) {
                   </div>
                   
                   <div className="text-sm font-medium text-gray-500 mb-4">
-                    {rest.type} • {rest.reviews} ratings
+                    {rest.type} • {rest.reviews_count || rest.reviews || 0} ratings
                   </div>
                   
                   <div className="flex items-center justify-between pt-4 border-t border-gray-100">
@@ -89,7 +89,7 @@ export default function Restaurants({ searchQuery = '', hideSeeAll = false }) {
                       <MapPin size={16} className="text-gray-400" /> Free Delivery
                     </div>
                     <span className="text-sm font-extrabold text-mango-600 bg-mango-50 px-3 py-1.5 rounded-full">
-                      Fee: {rest.deliveryFee}
+                      Fee: {rest.delivery_fee || rest.deliveryFee || 'Free'}
                     </span>
                   </div>
                 </div>

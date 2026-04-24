@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import { Toaster } from 'react-hot-toast';
 import Navbar from './components/Navbar';
 import LoginModal from './components/LoginModal';
 import Home from './pages/Home';
@@ -13,6 +14,8 @@ import SearchResults from './pages/SearchResults';
 import Checkout from './pages/Checkout';
 import OrderSuccess from './pages/OrderSuccess';
 import Admin from './pages/Admin';
+import Partner from './pages/Partner';
+import RestaurantAdmin from './pages/RestaurantAdmin';
 
 export default function App() {
   const [isLoginOpen, setIsLoginOpen] = useState(false);
@@ -29,9 +32,13 @@ export default function App() {
   }, []);
 
   const handleLogout = () => {
+    // Clear ALL user session data so no stale X-User-Id leaks to the next session
     localStorage.removeItem('user_data');
+    localStorage.removeItem('cart_cache');
     setUser(null);
     setIsLoggedIn(false);
+    // Force a full page reload so no in-memory cart state persists
+    window.location.href = '/';
   };
 
   return (
@@ -48,12 +55,14 @@ export default function App() {
           isOpen={isLoginOpen} 
           onClose={() => setIsLoginOpen(false)} 
           onLogin={(userData) => {
+            // Write to localStorage FIRST before any fetch fires
             localStorage.setItem('user_data', JSON.stringify(userData));
             setUser(userData);
             setIsLoggedIn(true);
             setIsLoginOpen(false);
           }} 
         />
+        <Toaster position="bottom-right" toastOptions={{ duration: 3000 }} />
         
         <Routes>
           <Route path="/" element={<Home searchQuery={searchQuery} />} />
@@ -67,6 +76,8 @@ export default function App() {
           <Route path="/food/:id" element={<FoodItem />} />
           <Route path="/profile" element={<Profile user={user} onLogout={handleLogout} onLoginClick={() => setIsLoginOpen(true)} />} />
           <Route path="/admin" element={user?.role === 'admin' ? <Admin /> : <Navigate to="/" replace />} />
+          <Route path="/partner" element={<Partner />} />
+          <Route path="/restaurant-admin" element={user?.role === 'partner' || user?.role === 'admin' ? <RestaurantAdmin /> : <Navigate to="/" replace />} />
         </Routes>
         
         <footer className="bg-gray-900 text-white py-12 relative z-10 mt-auto">

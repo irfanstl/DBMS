@@ -5,6 +5,7 @@ import {
   MessageSquare, Map as MapIcon, CalendarCheck, Image as ImageIcon,
   BookOpen, ShoppingBag, Check, ExternalLink
 } from 'lucide-react';
+import toast from 'react-hot-toast';
 
 const TABS = [
   { id: 'menu', label: 'Menu', icon: <BookOpen size={14} /> },
@@ -244,7 +245,22 @@ export default function RestaurantDetails() {
                     </div>
                     <div className="flex justify-between items-center mt-2">
                       <span className="text-xl font-extrabold text-gray-900">{item.price}</span>
-                      <button className="bg-mango-50 text-mango-600 p-2.5 rounded-full hover:bg-mango-500 hover:text-white transition-colors" onClick={(e) => { e.preventDefault(); /* Add to cart logic here */ }}>
+                      <button 
+                        className="bg-mango-50 text-mango-600 p-2.5 rounded-full hover:bg-mango-500 hover:text-white transition-colors" 
+                        onClick={async () => {
+                          try {
+                            const res = await fetch('/api/cart', { method: 'POST', headers: {'Content-Type':'application/json'}, body: JSON.stringify({id: item.id}) });
+                            if (res.ok) {
+                              window.dispatchEvent(new Event('navDataUpdated'));
+                              toast.success('Added to Cart!');
+                            } else {
+                              toast.error('Session expired. Please log out and log in again.');
+                            }
+                          } catch (e) {
+                            toast.error('Failed to add to cart');
+                          }
+                        }}
+                      >
                         <Plus size={20} strokeWidth={3} />
                       </button>
                     </div>

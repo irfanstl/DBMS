@@ -5,6 +5,8 @@ import { loggingMiddleware, placeholderMiddleware } from './middleware.js';
 import authRoutes from './auth.js';
 import paymentRoutes from './payment.js';
 import apiRoutes from './api.js';
+import pool from './mysql-connection.js';
+import './firebase-admin.js';
 
 const app = express();
 const PORT = 5001;
@@ -24,6 +26,16 @@ app.use((req, res, next) => {
 app.use('/api/auth', authRoutes);
 app.use('/api/payment', paymentRoutes);
 app.use('/api', apiRoutes);
+
+// Test Database Connection
+pool.getConnection()
+  .then(connection => {
+    console.log('[MySQL] Database connected successfully!');
+    connection.release();
+  })
+  .catch(err => {
+    console.error('[MySQL] Database connection failed:', err.message);
+  });
 
 app.listen(PORT, () => {
   console.log(`Backend server running on http://localhost:${PORT}`);

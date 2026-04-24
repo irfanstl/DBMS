@@ -19,11 +19,17 @@ export default function Navbar({ isLoggedIn, user, onLogout, onLoginClick, onSea
     localStorage.setItem('theme', isDark ? 'dark' : 'light');
   }, [isDark]);
 
-  useEffect(() => {
+  const fetchNavData = () => {
     fetch('/api/cart').then(res => res.json()).then(data => {
       setCartCount(data.reduce((acc, item) => acc + item.quantity, 0));
     });
     fetch('/api/notifications').then(res => res.json()).then(setNotifications);
+  };
+
+  useEffect(() => {
+    fetchNavData();
+    window.addEventListener('navDataUpdated', fetchNavData);
+    return () => window.removeEventListener('navDataUpdated', fetchNavData);
   }, []);
 
   const clearNotifications = async () => {
@@ -50,20 +56,13 @@ export default function Navbar({ isLoggedIn, user, onLogout, onLoginClick, onSea
             </span>
           </Link>
 
-          <button className="flex items-center gap-2 bg-gray-50 hover:bg-gray-100 px-3 md:px-4 py-2 rounded-full border border-gray-100 transition-colors cursor-pointer group">
-            <MapPin size={20} className="text-mango-500 flex-shrink-0 group-hover:-translate-y-0.5 transition-transform" />
-            <div className="text-left hidden md:flex flex-col">
-              <span className="text-[10px] text-gray-500 font-bold uppercase leading-none">Deliver to</span>
-              <span className="text-sm font-bold text-gray-900 leading-none mt-1">Add Location</span>
-            </div>
-            <span className="text-sm font-bold text-gray-900 leading-none md:hidden">Location</span>
-            <ChevronDown size={14} className="text-gray-500 ml-1" />
-          </button>
+
         </div>
 
         <div className="hidden lg:flex items-center space-x-10">
           <Link to="/" className="font-semibold text-mango-600 relative after:absolute after:bottom-0 after:left-0 after:w-full after:h-[2px] after:bg-mango-500 after:origin-bottom-right after:scale-x-0 hover:after:origin-bottom-left hover:after:scale-x-100 after:transition-transform after:duration-300">Home</Link>
           <Link to="/contact" className="font-semibold text-gray-500 hover:text-gray-900 transition-colors">Contact</Link>
+
         </div>
 
         <div className="flex items-center gap-3 md:gap-5">

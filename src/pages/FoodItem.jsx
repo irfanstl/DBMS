@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import { ArrowLeft, Star, Clock, Flame, MessageSquare, Plus, Minus, ShoppingBag } from 'lucide-react';
+import toast from 'react-hot-toast';
 
 export default function FoodItem() {
   const { id } = useParams();
@@ -96,7 +97,24 @@ export default function FoodItem() {
                       <Plus size={16} strokeWidth={3} />
                     </button>
                   </div>
-                  <button className="bg-mango-500 hover:bg-mango-600 text-white px-5 py-2.5 rounded-xl font-bold flex items-center gap-2 shadow-lg shadow-mango-200 transition-all active:scale-95 whitespace-nowrap text-sm">
+                  <button 
+                    onClick={async () => {
+                      try {
+                        const res = await fetch('/api/cart', { method: 'POST', headers: {'Content-Type':'application/json'}, body: JSON.stringify({id: food.id, quantity}) });
+                        if (res.ok) {
+                          window.dispatchEvent(new Event('navDataUpdated'));
+                          toast.success('Added to Cart!');
+                          setIsAdded(true);
+                          setTimeout(() => setIsAdded(false), 2000);
+                        } else {
+                          toast.error('Session expired. Please log out and log in again.');
+                        }
+                      } catch (e) {
+                        toast.error('Failed to add to cart');
+                      }
+                    }}
+                    className="bg-mango-500 hover:bg-mango-600 text-white px-5 py-2.5 rounded-xl font-bold flex items-center gap-2 shadow-lg shadow-mango-200 transition-all active:scale-95 whitespace-nowrap text-sm"
+                  >
                     <ShoppingBag size={16} /> Add to Cart
                   </button>
                 </div>
@@ -166,7 +184,22 @@ export default function FoodItem() {
                 </div>
                 <div className="flex justify-between items-center">
                   <span className="text-lg font-extrabold text-gray-900">₹8.50</span>
-                  <button className="bg-mango-50 text-mango-600 p-2 rounded-full hover:bg-mango-500 hover:text-white transition-colors">
+                  <button 
+                    onClick={async () => {
+                      try {
+                        const res = await fetch('/api/cart', { method: 'POST', headers: {'Content-Type':'application/json'}, body: JSON.stringify({id: i}) });
+                        if (res.ok) {
+                          window.dispatchEvent(new Event('navDataUpdated'));
+                          toast.success('Added to Cart!');
+                        } else {
+                          toast.error('Session expired. Please log out and log in again.');
+                        }
+                      } catch (e) {
+                        toast.error('Failed to add to cart');
+                      }
+                    }}
+                    className="bg-mango-50 text-mango-600 p-2 rounded-full hover:bg-mango-500 hover:text-white transition-colors"
+                  >
                     <Plus size={16} strokeWidth={3} />
                   </button>
                 </div>

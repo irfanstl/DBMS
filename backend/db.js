@@ -82,6 +82,11 @@ export const mongoDB = {
     { id: "notif_3", message: "Welcome to MangoBite! Get started by adding a delivery address.", time: "2 days ago", isRead: true }
   ],
 
+  orders: [
+    { id: '#ORD-9999', date: 'April 18, 2026', items: 'Spicy Mango Chicken x 2', total: '₹29.98', status: 'Delivered' },
+    { id: '#ORD-8888', date: 'April 10, 2026', items: 'Classic Beef Burger x 1', total: '₹12.99', status: 'Delivered' }
+  ],
+
   sessions: [
     { sessionId: "sess_xyz123", userId: 1, expiresAt: "2026-12-31T23:59:59Z", device: "Mobile App" }
   ],

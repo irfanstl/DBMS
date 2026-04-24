@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Flame, Clock, Plus } from 'lucide-react';
+import toast from 'react-hot-toast';
 
 export default function Featured({ searchQuery = '', hideSeeAll = false }) {
   const [items, setItems] = useState([]);
@@ -74,7 +75,24 @@ export default function Featured({ searchQuery = '', hideSeeAll = false }) {
                   
                   <div className="flex items-center justify-between mt-auto">
                     <span className="text-2xl font-extrabold text-gray-900">{item.price}</span>
-                    <button className="bg-mango-50 text-mango-600 p-3 rounded-full hover:bg-mango-500 hover:text-white transition-all duration-300 shadow-sm group-hover:shadow-md hover:rotate-90">
+                    <button 
+                      onClick={async () => {
+                        try {
+                          const res = await fetch('/api/cart', { method: 'POST', headers: {'Content-Type':'application/json'}, body: JSON.stringify({id: item.id}) });
+                          if (res.ok) {
+                            window.dispatchEvent(new Event('navDataUpdated'));
+                            toast.success('Added to Cart!', {
+                              style: { borderRadius: '10px', background: '#333', color: '#fff' }
+                            });
+                          } else {
+                            toast.error('Session expired. Please log out and log back in.');
+                          }
+                        } catch (e) {
+                          toast.error('Failed to add to cart');
+                        }
+                      }}
+                      className="bg-mango-50 text-mango-600 p-3 rounded-full hover:bg-mango-500 hover:text-white transition-all duration-300 shadow-sm group-hover:shadow-md hover:rotate-90"
+                    >
                       <Plus size={22} strokeWidth={3} />
                     </button>
                   </div>

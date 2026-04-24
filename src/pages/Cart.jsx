@@ -48,7 +48,7 @@ export default function Cart() {
               </div>
             ) : cart.map(item => (
               <div key={item.id} className="bg-white border border-gray-100 rounded-2xl p-4 flex gap-4 items-center shadow-sm">
-                <img src={item.image} alt={item.name} className="w-24 h-24 object-cover rounded-xl" />
+                <img src={item.img} alt={item.name} className="w-24 h-24 object-cover rounded-xl" />
                 <div className="flex-1">
                   <div className="flex justify-between items-start mb-2">
                     <h3 className="font-extrabold text-gray-900">{item.name}</h3>
