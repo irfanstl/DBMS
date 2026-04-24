@@ -1,7 +1,7 @@
 -- ============================================================
 --  MangoBite Food Delivery – PL/SQL Component
 --  Database : mangobite  (MySQL 8.0)
---  Author   : RUTUYJA KARPE
+--  Author   : RUTUJA KARPE
 --  Purpose  : Stored Procedures, Functions, Triggers, Cursor
 -- ============================================================
 
