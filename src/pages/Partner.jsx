@@ -51,7 +51,7 @@ export default function Partner() {
     const payload = { ...formData, address: fullAddress };
     
     try {
-      const response = await fetch('http://localhost:5001/api/restaurants', {
+      const response = await fetch('http://13.62.223.161:5001/api/restaurants', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload)
